@@ -1,10 +1,41 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MainContextProvider from '../context/MainContextProvider';
 
 function Table() {
   const dataPlanets = useContext(MainContextProvider);
+  const [planetsFull, setPlanetsFull] = useState([]);
+
+  const [planets, setPlanets] = useState([]);
+  const [planetsShow, setPlanetsShow] = useState([]);
+  const [searchName, setSearchName] = useState('');
+
+  useEffect(() => {
+    setPlanetsFull(dataPlanets);
+    if (planetsFull.length > 0) {
+      setPlanets(planetsFull);
+    }
+
+    if (searchName.length > 0) {
+      const a = planets.filter((item) => item.name.includes(searchName));
+      // descobrir como quebrar o case sensitivi!
+      setPlanetsShow(a);
+    } else {
+      setPlanetsShow(planets);
+    }
+    console.log('aloMesmo', planets);
+  }, [dataPlanets, planetsFull, searchName, planets]);
+
   return (
     <div>
+      <div>
+        <input
+          value={ searchName }
+          placeholder="Pesquisar"
+          type="text"
+          data-testid="name-filter"
+          onChange={ ({ target }) => setSearchName(target.value) }
+        />
+      </div>
       <table>
         <thead>
           <tr>
@@ -25,7 +56,7 @@ function Table() {
         </thead>
         <tbody>
           {
-            dataPlanets.map((item) => (
+            planetsShow.map((item) => (
               <tr key={ item.created }>
                 <td>{item.name}</td>
                 <td>{item.rotation_period}</td>
