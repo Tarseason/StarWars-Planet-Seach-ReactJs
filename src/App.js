@@ -11,6 +11,7 @@ function App() {
     getInfoPlanets()
       .then((res) => res.filter((item) => delete item.residents))
       .then((ok) => setDataPlenets(ok));
+    console.log(dataPlanets);
   }, []);
   return (
     <MainContextProvider.Provider value={ dataPlanets }>
