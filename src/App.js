@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Table from './Components/Table';
+import Main from './Components/Main';
 import MainContextProvider from './context/MainContextProvider';
 import getInfoPlanets from './services/getInfoPlanets';
 
@@ -11,11 +11,11 @@ function App() {
     getInfoPlanets()
       .then((res) => res.filter((item) => delete item.residents))
       .then((ok) => setDataPlenets(ok));
-    console.log(dataPlanets);
   }, []);
+
   return (
     <MainContextProvider.Provider value={ dataPlanets }>
-      <Table />
+      <Main />
     </MainContextProvider.Provider>
   );
 }
